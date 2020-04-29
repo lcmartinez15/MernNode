@@ -24,16 +24,16 @@ const Login = ({ login, isAuthenticated }) => {
   //redirect
 
   if (isAuthenticated) {
-    return <Redirect to="/dasboard" />;
+    return <Redirect to="/dashboard" />;
   }
 
   return (
     <Fragment>
       {" "}
-      <h1 className="large text-primary">Sign IN</h1>
+      <h1 className="large text-primary"> Sign IN </h1>{" "}
       <p className="lead">
-        <i className="fas fa-user"></i> Sing in Your Account
-      </p>
+        <i className="fas fa-user"> </i> Sing in Your Account{" "}
+      </p>{" "}
       <form className="form" onSubmit={(e) => onSubmit(e)}>
         <div className="form-group">
           <input
@@ -46,9 +46,9 @@ const Login = ({ login, isAuthenticated }) => {
           />
           <small className="form-text">
             This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
-          </small>
-        </div>
+            Gravatar email{" "}
+          </small>{" "}
+        </div>{" "}
         <div className="form-group">
           <input
             type="password"
@@ -60,11 +60,10 @@ const Login = ({ login, isAuthenticated }) => {
             required
           />
         </div>
-
         <input type="submit" className="btn btn-primary" value="Register" />
-      </form>
+      </form>{" "}
       <p className="my-1">
-        DOnt have an account? <Link to="/register">Sing up</Link>
+        DOnt have an account ? <Link to="/register"> Sing up </Link>{" "}
       </p>{" "}
     </Fragment>
   );

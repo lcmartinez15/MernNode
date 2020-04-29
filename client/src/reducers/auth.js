@@ -61,6 +61,7 @@ export default function(state = initialState, action) {
                 loading: false,
             };
         case LOGOUT:
+            console.log("logout user");
             localStorage.removeItem("token");
             return {
                 ...state,

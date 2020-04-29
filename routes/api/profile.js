@@ -14,14 +14,15 @@ const request = require("request");
 
 router.get("/me", auth, async(req, res) => {
     try {
-        console.log("start get profile" + req.user.name);
+        console.log("start get profile" + req.user.id);
         const profile = await Profile.findOne({
             user: req.user.id,
-        }).populated("user", ["name", "avatar"]);
+        }).populate("user", ["name", "avatar"]);
 
         if (!profile) {
             return res.status(400).json({ msg: "There is no profile for this user" });
         }
+        console.log("profile " + profile);
         res.json(profile);
     } catch (error) {
         console.log(error.message);
@@ -79,7 +80,7 @@ router.post(
         if (linkedin) profileFields.social.linkedin = linkedin;
         if (instagram) profileFields.social.instagram = instagram;
 
-        console.log(skills);
+        console.log(profileFields.social);
 
         try {
             let profile = await Profile.findOne({ user: req.user.id });
