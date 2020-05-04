@@ -12,6 +12,8 @@ import EditProfile from "./components/profile-forms/EditProfile";
 import AddEducation from "./components/profile-forms/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
+import Posts from "./components/posts/Posts";
+import Post from "./components/post/Post";
 import AddExperience from "./components/profile-forms/AddExperience";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import "./App.css";
@@ -33,39 +35,47 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Fragment>
-          <Navbar> </Navbar> <Route exact path="/" component={Landing} />
+          <Navbar> </Navbar>{" "}
+          <Route
+            exact
+            path="/
+        "
+            component={Landing}
+          />{" "}
           <section className="container">
             <Alert />
             <Switch>
-              <Route exact path="/Login" component={Login} />
-              <Route exact path="/Register" component={Register} />
-              <Route exact path="/Profiles" component={Profiles} />
-              <Route exact path="/Profile/:id" component={Profile} />
-              <PrivateRoute exact path="/Dashboard" component={Dashboard} />
+              <Route exact path="/Login" component={Login} />{" "}
+              <Route exact path="/Register" component={Register} />{" "}
+              <Route exact path="/Profiles" component={Profiles} />{" "}
+              <Route exact path="/Profile/:id" component={Profile} />{" "}
+              <PrivateRoute exact path="/Dashboard" component={Dashboard} />{" "}
               <PrivateRoute
                 exact
                 path="/create-profile"
                 component={CreateProfile}
-              />
+              />{" "}
               <PrivateRoute
                 exact
                 path="/edit-profile"
                 component={EditProfile}
-              />
+              />{" "}
               <PrivateRoute
                 exact
                 path="/add-experience"
                 component={AddExperience}
-              />
+              />{" "}
               <PrivateRoute
                 exact
                 path="/add-Education"
                 component={AddEducation}
-              />
-            </Switch>
-          </section>
-        </Fragment>
-      </Router>
+              />{" "}
+              <PrivateRoute exact path="/posts" component={Posts} />{" "}
+              <PrivateRoute exact path="/posts/:id" component={Post} />{" "}
+            </Switch>{" "}
+          </section>{" "}
+        </Fragment>{" "}
+      </Router>{" "}
     </Provider>
   );
 };
