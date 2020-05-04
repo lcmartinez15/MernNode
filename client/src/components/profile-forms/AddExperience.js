@@ -62,7 +62,7 @@ const AddExperience = ({ addExperience, history }) => {
             name="location"
             value={location}
             onChange={(e) => onchange(e)}
-          />
+          />{" "}
         </div>{" "}
         <div className="form-group">
           <h4> From Date </h4>{" "}
@@ -71,7 +71,7 @@ const AddExperience = ({ addExperience, history }) => {
             name="from"
             value={from}
             onChange={(e) => onchange(e)}
-          />
+          />{" "}
         </div>{" "}
         <div className="form-group">
           <p>
@@ -86,7 +86,7 @@ const AddExperience = ({ addExperience, history }) => {
               }}
             />{" "}
             Current Job{" "}
-          </p>
+          </p>{" "}
         </div>{" "}
         <div className="form-group">
           <h4> To Date </h4>{" "}
@@ -96,7 +96,7 @@ const AddExperience = ({ addExperience, history }) => {
             value={to}
             onChange={(e) => onchange(e)}
             disabled={toDateDisabled ? "disabled" : ""}
-          />
+          />{" "}
         </div>{" "}
         <div className="form-group">
           <textarea
@@ -121,4 +121,4 @@ AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired,
 };
 
-export default connect(null, { addExperience })(AddExperience);
+export default connect(null, { addExperience })(withRouter(AddExperience));

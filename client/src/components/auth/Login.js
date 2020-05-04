@@ -16,7 +16,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("login " + email + "  " + password);
+    //console.log("login " + email + "  " + password);
     login(email, password);
     console.log("success");
   };
@@ -59,7 +59,7 @@ const Login = ({ login, isAuthenticated }) => {
             onChange={(e) => onChange(e)}
             required
           />
-        </div>
+        </div>{" "}
         <input type="submit" className="btn btn-primary" value="Register" />
       </form>{" "}
       <p className="my-1">

@@ -6,6 +6,7 @@ import {
     LOGIN_FAIL,
     LOGIN_SUCCESS,
     LOGOUT,
+    ACCOUNT_DELETED,
 } from "../actions/types";
 
 const initialState = {
@@ -17,7 +18,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
     const { type, payload } = action;
-    console.log(type);
+
     switch (type) {
         case USER_LOADED:
             console.log("register" + payload);
@@ -61,6 +62,15 @@ export default function(state = initialState, action) {
                 loading: false,
             };
         case LOGOUT:
+            console.log("logout user");
+            localStorage.removeItem("token");
+            return {
+                ...state,
+                token: null,
+                isAuthenticated: false,
+                loading: false,
+            };
+        case ACCOUNT_DELETED:
             console.log("logout user");
             localStorage.removeItem("token");
             return {

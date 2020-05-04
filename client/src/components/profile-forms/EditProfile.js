@@ -45,7 +45,7 @@ const EditProfile = ({
       instagram: loading || !profile.social ? "" : profile.social.instagram,
       linkedin: loading || !profile.social ? "" : profile.social.linkedin,
     });
-  }, [loading]);
+  }, [loading, getCurrentProfile]);
 
   const {
     company,
@@ -163,7 +163,7 @@ const EditProfile = ({
             onChange={(e) => onchange(e)}
           ></textarea>{" "}
           <small className="form-text"> Tell us a little about yourself </small>{" "}
-        </div>
+        </div>{" "}
         <div className="my-2">
           <button
             onClick={() => toggleSocialInputs(!displaySocialInputs)}
@@ -173,7 +173,7 @@ const EditProfile = ({
             Add Social Network Links{" "}
           </button>{" "}
           <span> Optional </span>{" "}
-        </div>
+        </div>{" "}
         {displaySocialInputs && (
           <Fragment>
             <div className="form-group social-input">
@@ -185,7 +185,7 @@ const EditProfile = ({
                 value={twitter}
                 onChange={(e) => onchange(e)}
               />{" "}
-            </div>
+            </div>{" "}
             <div className="form-group social-input">
               <i className="fab fa-facebook fa-2x"> </i>{" "}
               <input
@@ -195,7 +195,7 @@ const EditProfile = ({
                 value={facebook}
                 onChange={(e) => onchange(e)}
               />{" "}
-            </div>
+            </div>{" "}
             <div className="form-group social-input">
               <i className="fab fa-youtube fa-2x"> </i>{" "}
               <input
@@ -205,7 +205,7 @@ const EditProfile = ({
                 value={youtube}
                 onChange={(e) => onchange(e)}
               />{" "}
-            </div>
+            </div>{" "}
             <div className="form-group social-input">
               <i className="fab fa-linkedin fa-2x"> </i>{" "}
               <input
@@ -215,7 +215,7 @@ const EditProfile = ({
                 value={linkedin}
                 onChange={(e) => onchange(e)}
               />{" "}
-            </div>
+            </div>{" "}
             <div className="form-group social-input">
               <i className="fab fa-instagram fa-2x"> </i>{" "}
               <input
@@ -227,7 +227,7 @@ const EditProfile = ({
               />{" "}
             </div>{" "}
           </Fragment>
-        )}
+        )}{" "}
         <input type="submit" className="btn btn-primary my-1" />
         <Link className="btn btn-light my-1" to="/dashboard">
           Go Back{" "}

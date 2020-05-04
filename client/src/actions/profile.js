@@ -1,16 +1,93 @@
 import axios from "axios";
 
 import { setAlert } from "./alert";
-import { GET_PROFILE, PROFILE_ERROR, UPDTAE_PROFILE } from "./types";
+import {
+    GET_PROFILE,
+    PROFILE_ERROR,
+    GET_PROFILES,
+    UPDTAE_PROFILE,
+    CLEAR_PROFILE,
+    ACCOUNT_DELETED,
+    GET_REPOS,
+} from "./types";
 
 // get currrent users profile
 
 export const getCurrentProfile = () => async(dispatch) => {
     try {
         const res = await axios.get("/api/profile/me");
-        console.log("current profile" + res);
+        //console.log("current profile" + res);
         dispatch({
             type: GET_PROFILE,
+            payload: res.data,
+        });
+    } catch (error) {
+        dispatch({
+            type: CLEAR_PROFILE,
+        });
+        if (!error)
+            dispatch({
+                type: PROFILE_ERROR,
+                payload: {
+                    msg: error.response.status,
+                    status: error.response.status,
+                },
+            });
+    }
+};
+
+// get all profile
+export const getProfiles = () => async(dispatch) => {
+    dispatch({ type: CLEAR_PROFILE });
+    try {
+        const res = await axios.get("/api/profile");
+        //console.log("all profile" + res);
+        dispatch({
+            type: GET_PROFILES,
+            payload: res.data,
+        });
+    } catch (error) {
+        if (!error)
+            dispatch({
+                type: PROFILE_ERROR,
+                payload: {
+                    msg: error.response.status,
+                    status: error.response.status,
+                },
+            });
+    }
+};
+
+// get  profile by id
+export const getProfileById = (userId) => async(dispatch) => {
+    try {
+        const res = await axios.get(`/api/profile/user/${userId}`);
+        //console.log("all profile" + res);
+        dispatch({
+            type: GET_PROFILE,
+            payload: res.data,
+        });
+    } catch (error) {
+        if (!error)
+            dispatch({
+                type: PROFILE_ERROR,
+                payload: {
+                    msg: error.response.status,
+                    status: error.response.status,
+                },
+            });
+    }
+};
+
+// get  github repos
+export const getGithubRepos = (username) => async(dispatch) => {
+    //dispatch({ type: CLEAR_PROFILE });
+    try {
+        const res = await axios.get(`/api/profile/github/${username}`);
+        console.log("data repo client", res);
+
+        dispatch({
+            type: GET_REPOS,
             payload: res.data,
         });
     } catch (error) {
@@ -38,7 +115,7 @@ export const createProfile = (formData, history, edit = false) => async(
         };
 
         const res = await axios.post("/api/profile", formData, config);
-        console.log("create profile");
+        //console.log("create profile");
         dispatch({
             type: GET_PROFILE,
             payload: res.data,
@@ -118,5 +195,77 @@ export const addEducation = (formData, history) => async(dispatch) => {
         dispatch({
             type: PROFILE_ERROR,
         });
+    }
+};
+
+// Delete experience User profile
+export const deleteExperience = (id) => async(dispatch) => {
+    try {
+        console.log("Delete antes");
+        const res = await axios.delete(`/api/profile/experience/${id}`);
+        console.log("Delete experience");
+
+        dispatch({
+            type: UPDTAE_PROFILE,
+            payload: res.data,
+        });
+
+        dispatch(setAlert("experience removed", "success"));
+    } catch (error) {
+        const errors = error.response.data.errors;
+        if (errors) {
+            errors.forEach((err) => dispatch(setAlert(err.msg, "danger")));
+        }
+        dispatch({
+            type: PROFILE_ERROR,
+        });
+    }
+};
+
+// Delete Education User profile
+export const deleteEducation = (id) => async(dispatch) => {
+    try {
+        const res = await axios.delete(`/api/profile/education/${id}`);
+        console.log("Delete Education");
+
+        dispatch({
+            type: UPDTAE_PROFILE,
+            payload: res.data,
+        });
+
+        dispatch(setAlert("Education removed", "success"));
+    } catch (error) {
+        const errors = error.response.data.errors;
+        if (errors) {
+            errors.forEach((err) => dispatch(setAlert(err.msg, "danger")));
+        }
+        dispatch({
+            type: PROFILE_ERROR,
+        });
+    }
+};
+
+// Delete account and profile
+export const deleteAccount = () => async(dispatch) => {
+    if (window.confirm("Are you sure? This can Not be undone!")) {
+        try {
+            await axios.delete("/api/profile");
+            console.log("Delete Education");
+
+            dispatch({ type: CLEAR_PROFILE });
+            dispatch({ type: ACCOUNT_DELETED });
+
+            dispatch(
+                setAlert("YOUR ACCOUNT HAS BEEN PERMANANTLY DELETED", "success")
+            );
+        } catch (error) {
+            const errors = error.response.data.errors;
+            if (errors) {
+                errors.forEach((err) => dispatch(setAlert(err.msg, "danger")));
+            }
+            dispatch({
+                type: PROFILE_ERROR,
+            });
+        }
     }
 };

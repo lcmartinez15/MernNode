@@ -5,8 +5,9 @@ const { check, validationResult } = require("express-validator/check");
 const mongoose = require("mongoose");
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
+const Post = require("../../models/Post");
 const config = require("config");
-const request = require("request");
+const axios = require("axios");
 
 // @route GET api/profile/me
 // @desc  get current users profile
@@ -145,7 +146,8 @@ router.get("/user/:user_id", async(req, res) => {
 
 router.delete("/", auth, async(req, res) => {
     try {
-        //@todo - remove user post
+        // remove user post
+        await Post.deleteMany({ user: req.user.id });
         console.log("delete profile by use id -" + req.user.id);
 
         //Remove profile
@@ -230,15 +232,6 @@ router.delete("/experience/:exp_id", auth, async(req, res) => {
         res.json(profile);
         //@todo - remove user post
         console.log("delete experience by  id -" + req.user.id);
-
-        //Remove profile
-        await Profile.findOneAndRemove({
-            user: mongoose.Types.ObjectId(req.user.id),
-        });
-
-        await User.findOneAndRemove({ _id: mongoose.Types.ObjectId(req.user.id) });
-
-        res.json({ msg: "user delete" });
     } catch (error) {
         console.log(error.message);
         res.status(500).send("server error");
@@ -315,13 +308,6 @@ router.delete("/education/:edu_id", auth, async(req, res) => {
         console.log("delete education by  id -" + req.user.id);
 
         //Remove profile
-        await Profile.findOneAndRemove({
-            user: mongoose.Types.ObjectId(req.user.id),
-        });
-
-        await User.findOneAndRemove({ _id: mongoose.Types.ObjectId(req.user.id) });
-
-        res.json({ msg: "user delete" });
     } catch (error) {
         console.log(error.message);
         res.status(500).send("server error");
@@ -332,30 +318,23 @@ router.delete("/education/:edu_id", auth, async(req, res) => {
 // @desc  get  profile github
 // @access Private
 
-router.get("/github/:username", (req, res) => {
+router.get("/github/:username", async(req, res) => {
     try {
-        const options = {
-            uri: `https://api.github.com/users/${
+        console.log("get github repos");
+
+        const response = await axios.get(
+            `https://api.github.com/users/${
         req.params.username
       }/repos?per_page=5&sort=create:asc&client_id=${config.get(
         "githubclientId"
-      )}&client_secret=${config.get("githubSecret")}`,
-            method: "GET",
-            headers: { "user-agent": "node.js" },
-        };
-
-        console.log(options);
-        request(options, (error, response, body) => {
-            if (error) console.log(error);
-
-            if (response.statusCoe !== 200) {
-                return res
-                    .status(400)
-                    .json({ msg: "no github profile found" + request });
+      )}&client_secret=${config.get("githubSecret")}`, {
+                headers: { "user-agent": "node.js" },
             }
+        );
 
-            res.json(body);
-        });
+        console.log("response", response.data);
+
+        res.json(response.data);
     } catch (error) {
         console.log(error.message);
         res.status(500).send("server error");

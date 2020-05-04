@@ -19,7 +19,7 @@ export const loadUser = () => async(dispatch) => {
     }
     try {
         const res = await axios.get("/api/auth");
-        console.log("data user" + res);
+        //console.log("data user" + res);
         dispatch({
             type: USER_LOADED,
             payload: res.data,
@@ -42,7 +42,7 @@ export const register = ({ name, email, password }) => async(dispatch) => {
 
     try {
         const res = await axios.post("/api/users", body, config);
-        console.log(res.data);
+        // console.log(res.data);
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data,
@@ -61,7 +61,7 @@ export const register = ({ name, email, password }) => async(dispatch) => {
 
 //Login User
 export const login = (email, password) => async(dispatch) => {
-    console.log("start login");
+    //console.log("start login");
     const config = {
         headers: {
             "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export const login = (email, password) => async(dispatch) => {
 
     try {
         const res = await axios.post("/api/auth", body, config);
-        console.log("token2" + res.data.name);
+        // console.log("token2" + res.data.name);
         dispatch({
             type: LOGIN_SUCCESS,
             payload: res.data,
@@ -91,7 +91,7 @@ export const login = (email, password) => async(dispatch) => {
 
 //LoginOUT
 export const logout = () => async(dispatch) => {
-    console.log("logout");
+    //console.log("logout");
     dispatch({
         type: LOGOUT,
     });
