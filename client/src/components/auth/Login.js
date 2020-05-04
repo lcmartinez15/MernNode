@@ -60,7 +60,7 @@ const Login = ({ login, isAuthenticated }) => {
             required
           />
         </div>{" "}
-        <input type="submit" className="btn btn-primary" value="Register" />
+        <input type="submit" className="btn btn-primary" value="Login" />
       </form>{" "}
       <p className="my-1">
         DOnt have an account ? <Link to="/register"> Sing up </Link>{" "}
